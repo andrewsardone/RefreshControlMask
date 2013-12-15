@@ -19,6 +19,7 @@
 		496E14A2185E5E8300F59AD2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496E148A185E5E8200F59AD2 /* UIKit.framework */; };
 		496E14AA185E5E8300F59AD2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 496E14A8185E5E8300F59AD2 /* InfoPlist.strings */; };
 		496E14AC185E5E8300F59AD2 /* RefreshControlMaskTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 496E14AB185E5E8300F59AD2 /* RefreshControlMaskTests.m */; };
+		496E14B7185E5F0E00F59AD2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 496E14B6185E5F0E00F59AD2 /* ViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		496E14A7185E5E8300F59AD2 /* RefreshControlMaskTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RefreshControlMaskTests-Info.plist"; sourceTree = "<group>"; };
 		496E14A9185E5E8300F59AD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		496E14AB185E5E8300F59AD2 /* RefreshControlMaskTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RefreshControlMaskTests.m; sourceTree = "<group>"; };
+		496E14B5185E5F0E00F59AD2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		496E14B6185E5F0E00F59AD2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 			children = (
 				496E1495185E5E8300F59AD2 /* AppDelegate.h */,
 				496E1496185E5E8300F59AD2 /* AppDelegate.m */,
+				496E14B5185E5F0E00F59AD2 /* ViewController.h */,
+				496E14B6185E5F0E00F59AD2 /* ViewController.m */,
 				496E1498185E5E8300F59AD2 /* Images.xcassets */,
 				496E148D185E5E8200F59AD2 /* Supporting Files */,
 			);
@@ -239,6 +244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				496E14B7185E5F0E00F59AD2 /* ViewController.m in Sources */,
 				496E1497185E5E8300F59AD2 /* AppDelegate.m in Sources */,
 				496E1493185E5E8300F59AD2 /* main.m in Sources */,
 			);
