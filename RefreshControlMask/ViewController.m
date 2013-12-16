@@ -13,31 +13,30 @@
     self.refreshControl = ({
         UIRefreshControl *rc = [UIRefreshControl new];
         [rc addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-        self.maskLayer = ({
-            CAShapeLayer *ml = [CAShapeLayer layer];
-            ml.strokeColor = [UIColor whiteColor].CGColor;
-            ml.lineWidth = 10.0;
-            ml.fillColor = [UIColor clearColor].CGColor;
-            ml.frame = ({
-                CGRect f = CGRectZero;
-                f.size.width = f.size.height = 32;
-                f.origin.x = floorf((rc.bounds.size.width - f.size.width) / 2.0);
-                f.origin.y = 14.0;
-                f;
-            });
-            ml.path = ({
-                CGPoint pathCenter = { .x = ml.frame.size.width / 2.0, .y = ml.frame.size.height / 2.0 };
-                CGFloat (^degreesToRadians)(CGFloat) = ^CGFloat(CGFloat deg) { return deg * M_PI / 180; };
-                CGFloat startAngle = degreesToRadians(-100);
-                CGMutablePathRef path = CGPathCreateMutable();
-                CGPathAddArc(path, NULL, pathCenter.x, pathCenter.y, ml.lineWidth, startAngle, startAngle + degreesToRadians(360), false);
-                path;
-            });
-            ml;
-        });
-        [rc.layer addSublayer:self.maskLayer];
         rc;
     });
+    [self.refreshControl.layer addSublayer:({
+        CAShapeLayer *mask = [CAShapeLayer layer];
+        mask.strokeColor = [UIColor whiteColor].CGColor;
+        mask.lineWidth = 10.0;
+        mask.fillColor = [UIColor clearColor].CGColor;
+        mask.frame = ({
+            CGRect f = CGRectZero;
+            f.size.width = f.size.height = 32;
+            f.origin.x = floorf((self.refreshControl.bounds.size.width - f.size.width) / 2.0);
+            f.origin.y = 14.0;
+            f;
+        });
+        mask.path = ({
+            CGPoint pathCenter = { .x = mask.frame.size.width / 2.0, .y = mask.frame.size.height / 2.0 };
+            CGFloat (^degreesToRadians)(CGFloat) = ^CGFloat(CGFloat deg) { return deg * M_PI / 180; };
+            CGFloat startAngle = degreesToRadians(-100);
+            CGMutablePathRef path = CGPathCreateMutable();
+            CGPathAddArc(path, NULL, pathCenter.x, pathCenter.y, mask.lineWidth, startAngle, startAngle + degreesToRadians(360), false);
+            path;
+        });
+        self.maskLayer = mask;
+    })];
     [self addKVO];
 }
 
