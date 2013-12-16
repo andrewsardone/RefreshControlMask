@@ -27,14 +27,13 @@
             f.origin.y = 14.0;
             f;
         });
-        mask.path = ({
-            CGPoint pathCenter = { .x = mask.frame.size.width / 2.0, .y = mask.frame.size.height / 2.0 };
-            CGFloat (^degreesToRadians)(CGFloat) = ^CGFloat(CGFloat deg) { return deg * M_PI / 180; };
-            CGFloat startAngle = degreesToRadians(-100);
-            CGMutablePathRef path = CGPathCreateMutable();
-            CGPathAddArc(path, NULL, pathCenter.x, pathCenter.y, mask.lineWidth, startAngle, startAngle + degreesToRadians(360), false);
-            path;
-        });
+        CGPoint pathCenter = { .x = mask.frame.size.width / 2.0, .y = mask.frame.size.height / 2.0 };
+        CGFloat (^degreesToRadians)(CGFloat) = ^CGFloat(CGFloat deg) { return deg * M_PI / 180; };
+        CGFloat startAngle = degreesToRadians(-100);
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathAddArc(path, NULL, pathCenter.x, pathCenter.y, mask.lineWidth, startAngle, startAngle + degreesToRadians(360), false);
+        mask.path = path;
+        CGPathRelease(path);
         self.maskLayer = mask;
     })];
     [self addKVO];
