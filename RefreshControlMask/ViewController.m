@@ -1,7 +1,7 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-@property (nonatomic, strong) CALayer *maskLayer;
+@property (nonatomic, strong) CAShapeLayer *maskLayer;
 @end
 
 @implementation ViewController
@@ -14,16 +14,26 @@
         UIRefreshControl *rc = [UIRefreshControl new];
         [rc addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
         self.maskLayer = ({
-            CALayer *ml = [CALayer layer];
+            CAShapeLayer *ml = [CAShapeLayer layer];
+            ml.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.8].CGColor;
+            ml.strokeColor = [UIColor whiteColor].CGColor;
+            ml.lineWidth = 10.0;
+            ml.fillColor = [UIColor clearColor].CGColor;
             ml.frame = ({
                 CGRect f = CGRectZero;
                 f.size.width = f.size.height = 32;
                 f.origin.x = floorf((rc.bounds.size.width - f.size.width) / 2.0);
-                f.origin.y = 12.0;
+                f.origin.y = 14.0;
                 f;
             });
-            ml.cornerRadius = ml.frame.size.width / 2.0;
-            ml.backgroundColor = [UIColor redColor].CGColor;
+            ml.path = ({
+                CGPoint pathCenter = { .x = ml.frame.size.width / 2.0, .y = ml.frame.size.height / 2.0 };
+                CGFloat (^degreesToRadians)(CGFloat) = ^CGFloat(CGFloat deg) { return deg * M_PI / 180; };
+                CGFloat startAngle = degreesToRadians(-100);
+                CGMutablePathRef path = CGPathCreateMutable();
+                CGPathAddArc(path, NULL, pathCenter.x, pathCenter.y, ml.lineWidth, startAngle, startAngle + degreesToRadians(360), false);
+                path;
+            });
             ml;
         });
         [rc.layer addSublayer:self.maskLayer];
