@@ -15,7 +15,6 @@
         [rc addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
         self.maskLayer = ({
             CAShapeLayer *ml = [CAShapeLayer layer];
-            ml.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.8].CGColor;
             ml.strokeColor = [UIColor whiteColor].CGColor;
             ml.lineWidth = 10.0;
             ml.fillColor = [UIColor clearColor].CGColor;
