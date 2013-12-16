@@ -39,19 +39,55 @@
         [rc.layer addSublayer:self.maskLayer];
         rc;
     });
+    [self addKVO];
 }
 
 #pragma mark Actions
 
 - (void)refresh:(UIRefreshControl *)sender
 {
-    self.maskLayer.backgroundColor = [UIColor clearColor].CGColor;
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    self.maskLayer.opacity = 0.0;
+    [CATransaction commit];
+
     double delayInSeconds = 2.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [sender endRefreshing];
-        self.maskLayer.backgroundColor = [UIColor redColor].CGColor;
+        self.maskLayer.opacity = 1.0;
     });
+}
+
+#pragma mark KVO
+
+- (void)addKVO
+{
+    [self addObserver:self
+           forKeyPath:@"tableView.contentOffset"
+              options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+              context:self.contentOffsetContext];
+}
+
+- (void)removeKVO
+{
+    [self removeObserver:self forKeyPath:@"tableView.contentOffset" context:self.contentOffsetContext];
+}
+
+- (void *)contentOffsetContext { static void *kContentOffsetCtx = &kContentOffsetCtx; return kContentOffsetCtx; }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == self.contentOffsetContext) {
+        CGPoint offset = [change[NSKeyValueChangeNewKey] CGPointValue];
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+        self.maskLayer.strokeStart = (offset.y - -80) / -105;;
+        [CATransaction commit];
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark UITableViewDataSource
@@ -70,6 +106,13 @@
     cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
 
     return cell;
+}
+
+#pragma mark Object lifecycle
+
+- (void)dealloc
+{
+    [self removeKVO];
 }
 
 @end
